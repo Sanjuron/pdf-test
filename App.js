@@ -2,10 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 //import de la bibliothèque pdf
 // import PDFLib, { PDFDocument, PDFPage } from 'react-native-pdf-lib';
-import { PDFDocument, StandardFonts, rgb} from 'pdf-lib';
+import { degrees, PDFDocument, StandardFonts, rgb} from 'pdf-lib';
+import download from 'downloadjs';
 
 export default function App() {
   
+//   async function createPdf() {
 //   const page1 = PDFPage
 //   .create()
 //   .setMediaBox(200, 200)
@@ -14,6 +16,8 @@ export default function App() {
 //     y: 235,
 //     color: '#007386',
 //   });
+
+  
 
 // const docsDir = await PDFLib.getDocumentsDirectory();
 // const pdfPath = `${docsDir}/sample.pdf`;
@@ -24,6 +28,7 @@ export default function App() {
 //   .then(path => {
 //     console.log('le pdf a été créé a ' + path )
 //   });
+//   }
 
 async function createPdf() {
   //création d'un pdf vide
@@ -35,10 +40,17 @@ async function createPdf() {
   const page = pdfDoc.addPage()
   //proportions
   const { width, height } = page.getSize()
-  const fontSize = 30
-  page.drawText('Creating PDFs in JavaScript is awesome!', {
+  const fontSize = 20
+  page.drawText('Contrat de location Garage Solidaire', {
     x: 50,
     y: height - 4 * fontSize,
+    size: fontSize,
+    font: timesRomanFont,
+    color: rgb(0, 0.53, 0.71),
+  })
+  page.drawText('Sanjuron', {
+    x: 50,
+    y: height - 10 * fontSize,
     size: fontSize,
     font: timesRomanFont,
     color: rgb(0, 0.53, 0.71),
@@ -46,9 +58,32 @@ async function createPdf() {
 
   const pdfBytes = await pdfDoc.save()
 
-  download(pdfBytes, "pdf-lib_creation_example.pdf", "application/pdf");
+  download(pdfBytes, "contrat-de-location.pdf", "application/pdf");
 }
 
+
+
+// async function modifyPdf() {
+//   const path = './pdfs.doc1.pdf'
+//   const existingPdfBytes = await fetch(path).then(res => res.arrayBuffer())
+
+//   const pdfDoc = await PDFDocument.load(existingPdfBytes)
+//   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+
+//   const pages = pdfDoc.getPages()
+//   const firstPage = pages[0]
+//   const { width, height } = firstPage.getSize()
+//   firstPage.drawText('This text was added with JavaScript!', {
+//     x: 5,
+//     y: height / 2 + 300,
+//     size: 50,
+//     font: helveticaFont,
+//     color: rgb(0.95, 0.1, 0.1),
+//     rotate: degrees(-45),
+//   })
+
+//   const pdfBytes = await pdfDoc.save()
+// }
 
 
   return (
@@ -57,7 +92,7 @@ async function createPdf() {
       <Text>Créer un Pdf</Text>
       <Button
       title="sauvegarder pdf"
-      onPress={createPdf()}
+      onPress={createPdf}
       />
     </View>
   );
