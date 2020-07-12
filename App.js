@@ -8,10 +8,18 @@ import download from 'downloadjs';
 
 export default function App() {
 
-  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [model, setModel] = useState('');
 
-  const changeName= (val) => {
-    setName(val)
+  const changeLastname= (val) => {
+    setLastname(val)
+  }
+  const changeFirstame= (val) => {
+    setFirstname(val)
+  }
+  const changeModel= (val) => {
+    setModel(val)
   }
 
 
@@ -29,16 +37,23 @@ async function createPdf(props) {
   //proportions
   const { width, height } = page.getSize()
   const fontSize = 20
-  page.drawText(name, {
+  page.drawText(firstname, {
     x: 50,
     y: height - 4 * fontSize,
     size: fontSize,
     font: timesRomanFont,
     color: rgb(0, 0.53, 0.71),
   })
-  page.drawText('Sanjuron', {
+  page.drawText(lastname, {
     x: 50,
     y: height - 10 * fontSize,
+    size: fontSize,
+    font: timesRomanFont,
+    color: rgb(0, 0.53, 0.71),
+  })
+  page.drawText(model, {
+    x: 50,
+    y: height - 15 * fontSize,
     size: fontSize,
     font: timesRomanFont,
     color: rgb(0, 0.53, 0.71),
@@ -52,10 +67,18 @@ async function createPdf(props) {
   return (
     <ThemeProvider>
     <View style={styles.container}>
-      <Text>Créer un Pdf</Text>
+      <Text style={styles.h1}>Contrat de Location</Text>
       <Input
-        placeholder='BASIC INPUT'
-        onChangeText={changeName}
+        placeholder='Nom du demandeur'
+        onChangeText={changeLastname}
+      />
+      <Input
+        placeholder='Prénom du demandeur'
+        onChangeText={changeFirstame}
+      />
+      <Input
+        placeholder='Modèle de la voiture à louer'
+        onChangeText={changeModel}
       />
       <Button
       title="sauvegarder pdf"
@@ -74,4 +97,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  h1: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#009CBF'
+  }
 });
